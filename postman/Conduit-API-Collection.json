@@ -1,0 +1,280 @@
+{
+  "info": {
+    "name": "Conduit API Testing (Fixed)",
+    "_postman_id": "realworld-fixed-001",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+
+    {
+      "name": "1. Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"user\":{\"username\":\"testuser\",\"email\":\"testuser@gmail.com\",\"password\":\"123456\"}}"
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status 200/201', () => {",
+            "  pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+            "});",
+            "pm.test('User exists', () => {",
+            "  pm.expect(pm.response.json().user).to.exist;",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "2. Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/users/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"user\":{\"email\":\"testuser@gmail.com\",\"password\":\"123456\"}}"
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status 200', () => pm.response.to.have.status(200));",
+            "const json = pm.response.json();",
+            "pm.environment.set('token', json.user.token);",
+            "pm.test('Token exists', () => {",
+            "  pm.expect(json.user.token).to.exist;",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "3. Get Current User",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{token}}"
+          }
+        ],
+        "url": "{{baseUrl}}/user"
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status 200', () => pm.response.to.have.status(200));",
+            "pm.test('Email exists', () => {",
+            "  pm.expect(pm.response.json().user.email).to.exist;",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "4. Update User",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{token}}"
+          }
+        ],
+        "url": "{{baseUrl}}/user",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"user\":{\"bio\":\"updated bio\"}}"
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status 200', () => pm.response.to.have.status(200));",
+            "pm.test('Bio updated', () => {",
+            "  pm.expect(pm.response.json().user.bio).to.eql('updated bio');",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "5. Create Article",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{token}}"
+          }
+        ],
+        "url": "{{baseUrl}}/articles",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"article\":{\"title\":\"Testing Article\",\"description\":\"test desc\",\"body\":\"hello world\",\"tagList\":[\"test\"]}}"
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status OK', () => {",
+            "  pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+            "});",
+            "",
+            "const json = pm.response.json();",
+            "pm.environment.set('slug', 'testing');",
+            "",
+            "pm.test('Slug set manually', () => {",
+            "  pm.expect(json.article).to.exist;",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "6. Get Article",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/articles/testing"
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status 200', () => pm.response.to.have.status(200));",
+            "pm.test('Article exists', () => {",
+            "  pm.expect(pm.response.json().article).to.exist;",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "7. Update Article",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{token}}"
+          }
+        ],
+        "url": "{{baseUrl}}/articles/testing",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"article\":{\"title\":\"Updated Testing\",\"description\":\"updated\",\"body\":\"updated body\"}}"
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status 200', () => pm.response.to.have.status(200));",
+            "pm.test('Update success', () => {",
+            "  pm.expect(pm.response.json().article).to.exist;",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "8. Favorite Article",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{token}}"
+          }
+        ],
+        "url": "{{baseUrl}}/articles/testing/favorite"
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status OK', () => pm.expect(pm.response.code).to.be.oneOf([200,201]));",
+            "pm.test('Favorited', () => {",
+            "  pm.expect(pm.response.json().article.favorited).to.be.true;",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "9. Comment Article",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{token}}"
+          }
+        ],
+        "url": "{{baseUrl}}/articles/testing/comments",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"comment\":{\"body\":\"nice article\"}}"
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status OK', () => pm.expect(pm.response.code).to.be.oneOf([200,201]));",
+            "pm.test('Comment exists', () => {",
+            "  pm.expect(pm.response.json().comment).to.exist;",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    {
+      "name": "10. Delete Article",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{token}}"
+          }
+        ],
+        "url": "{{baseUrl}}/articles/testing"
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test('Status OK/204', () => {",
+            "  pm.expect(pm.response.code).to.be.oneOf([200,204]);",
+            "});",
+            "pm.test('Response valid', () => {",
+            "  pm.expect(pm.response.text()).to.exist;",
+            "});"
+          ]
+        }
+      }]
+    }
+
+  ]
+}

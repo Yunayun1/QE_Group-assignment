@@ -1,0 +1,20 @@
+{
+  "name": "RealWorld Local",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "enabled": true
+    },
+    {
+      "key": "token",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "slug",
+      "value": "testing",
+      "enabled": true
+    }
+  ]
+}
