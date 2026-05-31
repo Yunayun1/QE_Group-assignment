@@ -132,7 +132,12 @@ async function main() {
                 },
                 {
                   tag: {
-                    create: { name: 'welcome' },
+                    connectOrCreate: {
+                      where: {
+                        name: 'realworld',
+                      },
+                      create: { name: 'realworld' },
+                    },
                   },
                 },
               ],
@@ -324,7 +329,7 @@ async function main() {
           {
             title:
               'Use the cross-platform THX array, then you can parse the primary capacitor!',
-            slug: 'Use-the-cross-platform-THX-array-then-you-can-parse-the-primary-capacitor!-120863',
+            slug: 'Use-the-cross-platform-THX-array-then-you-can-parse-the-primary-capacitor!-120863-2',
             description: '',
             body: 'Cum vitae aliquam neque consequatur quia id dicta ipsam.\\nExercitationem ab eum exercitationem non alias numquam qui.\\nItaque rerum ut nobis est nam vitae exercitationem minima fugiat.\\nEst sit non tempora soluta consequatur eveniet.\\nCorporis nisi dolorem architecto voluptatem. Et sed dicta eveniet accusamus consequatur.\\nUllam voluptas consequatur aut eos ducimus.\\nId officia est ut dicta provident beatae ipsa. Debitis facilis dolorum maiores aut et.\\nEa voluptas magnam deserunt at ut sunt voluptatem.\\nEt voluptatem voluptatem.\\nUt est fugiat magnam. Rerum minus et quia et dolorem officiis sunt id.\\nPariatur dolorum sint blanditiis ex vero optio.\\nQuam numquam omnis porro voluptatem. Autem sed aspernatur aut sint ipsam et facere rerum voluptas.\\nPerferendis eligendi molestias laudantium eveniet eos.\\nId veniam asperiores quis voluptates aut deserunt.\\nTempora et eius dignissimos nulla iusto et omnis pariatur.\\nSit mollitia eum blanditiis suscipit. Voluptatem velit ut deserunt.\\nQuibusdam eius repellat. Voluptas aut occaecati cum et quia quam.\\nBeatae libero doloribus nesciunt iusto.\\nDolores vitae neque quisquam qui ipsa ut aperiam. Et sed dicta eveniet accusamus consequatur.\\nUllam voluptas consequatur aut eos ducimus.\\nId officia est ut dicta provident beatae ipsa. Provident saepe omnis non molestiae natus et.\\nAccusamus laudantium hic unde voluptate et sunt voluptatem.\\nMollitia velit id eius mollitia occaecati repudiandae. Minima qui ut nulla eius.\\nA incidunt ipsum tempore porro tempore.\\nFugit quas voluptas ducimus aut.\\nTempore nostrum velit expedita voluptate est.\\nNam iste explicabo tempore impedit voluptas.',
             tagList: {

@@ -1,5 +1,7 @@
 FROM node:20-alpine
 
+RUN apk add --no-cache openssl
+
 RUN npm config set registry https://registry.npmmirror.com
 
 WORKDIR /app

@@ -28,6 +28,8 @@ services:
     volumes:
       - ./public:/app/public
       - ./src:/app/src
+      - ./prisma:/app/prisma
+      - ./messages:/app/messages
     networks:
       - default
 
